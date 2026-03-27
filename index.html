@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Sanda Target | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="card header">
+        <h1>SMART SANDA TARGET</h1>
+        <small>Real-Time Performance Analysis</small>
+    </div>
+
+    <div class="score-box">
+        <div class="card score-card">
+            <small>IMPACT SCORE</small>
+            <span class="val" id="impactVal" style="color: var(--danger);">0</span>
+        </div>
+        <div class="card score-card">
+            <small>SPEED SCORE</small>
+            <span class="val" id="speedVal" style="color: #00ff88;">0</span>
+        </div>
+    </div>
+
+    <div class="card stats-box">
+        <div class="stat-item"><small>Total Kick</small><b id="tKick">0</b></div>
+        <div class="stat-item"><small>Avg Power</small><b id="aPower">0</b></div>
+        <div class="stat-item"><small>Max Power</small><b id="mPower">0</b></div>
+        <div class="stat-item"><small>Connection</small><b style="color: #00ff88;">SIMULATOR</b></div>
+    </div>
+
+    <div class="card body-visual">
+        <h3 style="margin:0; color:var(--dim)">BODY TARGET DISPLAY</h3>
+        <svg viewBox="0 0 200 400" class="human-svg">
+            <circle cx="100" cy="50" r="30" id="target-head" class="active-dot" />
+            <path d="M100,20 Q115,20 120,50 Q115,80 100,80 Q85,80 80,50 Q85,20 100,20" fill="#3d445d" />
+            <rect x="60" y="90" width="80" height="150" rx="15" fill="#3d445d" />
+            <circle cx="100" cy="120" r="10" id="target-chest" class="active-dot" />
+            <circle cx="80" cy="170" r="10" id="target-l-stomach" class="active-dot" />
+            <circle cx="120" cy="170" r="10" id="target-r-stomach" class="active-dot" />
+            <circle cx="100" cy="210" r="10" id="target-lower" class="active-dot" />
+        </svg>
+        <p id="zoneText" style="color:var(--accent); font-weight:bold; margin-top:10px;">Ready for Action...</p>
+    </div>
+
+    <div class="card chart-box">
+        <canvas id="liveChart"></canvas>
+    </div>
+
+    <div class="footer card">
+        <span>SANDA MONITOR v1.0 | UNNES 2026</span>
+        <button class="btn-start" id="startBtn">START SIMULATION</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

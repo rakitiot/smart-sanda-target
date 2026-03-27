@@ -1,0 +1,70 @@
+:root {
+    --bg: #0b1120;
+    --card: #1e293b;
+    --accent: #38bdf8;
+    --danger: #ef4444;
+    --text: #f8fafc;
+    --dim: #94a3b8;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-areas: 
+        "header header"
+        "score body"
+        "stats body"
+        "chart chart"
+        "footer footer";
+    grid-template-columns: 1fr 1.2fr;
+    gap: 15px;
+}
+
+.card { 
+    background: var(--card); 
+    padding: 20px; 
+    border-radius: 16px; 
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+.header { grid-area: header; text-align: center; border-bottom: 3px solid var(--accent); }
+.header h1 { margin: 0; letter-spacing: 4px; color: var(--accent); font-size: 2rem; }
+
+.score-box { grid-area: score; display: flex; gap: 15px; }
+.score-card { flex: 1; text-align: center; background: rgba(56, 189, 248, 0.05); }
+.val { font-size: 3rem; font-weight: 800; display: block; margin-top: 10px; }
+
+.stats-box { grid-area: stats; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-item { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+.stat-item small { color: var(--dim); display: block; text-transform: uppercase; font-size: 0.7rem; }
+.stat-item b { font-size: 1.4rem; color: var(--text); }
+
+.body-visual { grid-area: body; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.human-svg { height: 480px; fill: #334155; }
+.active-dot { fill: var(--danger); opacity: 0; transition: 0.2s; }
+.show { opacity: 1; transform: scale(1.2); }
+
+.chart-box { grid-area: chart; height: 300px; }
+
+.footer { grid-area: footer; display: flex; justify-content: space-between; align-items: center; }
+
+.btn-start { 
+    background: var(--accent); border: none; padding: 12px 30px; border-radius: 8px; 
+    font-weight: bold; cursor: pointer; color: #000; transition: 0.3s;
+}
+
+@media (max-width: 850px) {
+    .wrapper { grid-template-areas: "header" "score" "body" "stats" "chart" "footer"; grid-template-columns: 1fr; }
+}
