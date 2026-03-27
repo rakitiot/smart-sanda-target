@@ -1,20 +1,27 @@
 :root {
-    --bg: #0b1120;
-    --card: #1e293b;
-    --accent: #38bdf8;
-    --danger: #ef4444;
-    --text: #f8fafc;
+    --bg: #1a262e;
+    --card: #2b4f60;
+    --card-inner: #203a49;
+    --accent: #00d2ff;
+    --danger: #ff4b2b;
+    --text: #f0f4f8;
     --dim: #94a3b8;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     background-color: var(--bg);
     color: var(--text);
-    margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
+    min-height: 100vh;
 }
 
 .wrapper {
@@ -34,37 +41,160 @@ body {
 .card { 
     background: var(--card); 
     padding: 20px; 
-    border-radius: 16px; 
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    border-radius: 12px; 
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-.header { grid-area: header; text-align: center; border-bottom: 3px solid var(--accent); }
-.header h1 { margin: 0; letter-spacing: 4px; color: var(--accent); font-size: 2rem; }
+.header { 
+    grid-area: header; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 15px 25px;
+}
+
+.header-titles h1 { 
+    letter-spacing: 5px; /* Tambah jarak antar huruf biar elegan */
+    color: #fff; 
+    font-size: 2.2rem; 
+    font-weight: 900;
+    text-transform: uppercase;
+    /* Efek Glow Biru Neon */
+    text-shadow: 0 0 10px var(--accent), 
+                 0 0 20px var(--accent), 
+                 0 0 40px rgba(0, 210, 255, 0.5);
+    margin-bottom: 5px;
+    position: relative;
+}
+
+/* Tambahkan garis hiasan di bawah judul */
+.header-titles::after {
+    content: "";
+    display: block;
+    width: 250px;
+    height: 4px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    border-radius: 2px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timer-display {
+    background: #1a262e;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 1.2rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-start { background: var(--accent); color: #1a262e; }
+.btn-pause { background: #facc15; color: #1a262e; display: none; }
+.btn-reset { background: var(--danger); color: white; }
 
 .score-box { grid-area: score; display: flex; gap: 15px; }
-.score-card { flex: 1; text-align: center; background: rgba(56, 189, 248, 0.05); }
-.val { font-size: 3rem; font-weight: 800; display: block; margin-top: 10px; }
+.score-card { flex: 1; text-align: center; background: rgba(0,0,0,0.2); }
+.val { font-size: 3rem; font-weight: 800; display: block; }
 
 .stats-box { grid-area: stats; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stat-item { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-.stat-item small { color: var(--dim); display: block; text-transform: uppercase; font-size: 0.7rem; }
-.stat-item b { font-size: 1.4rem; color: var(--text); }
+.stat-item { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+.stat-item small { color: var(--dim); display: block; font-size: 0.75rem; margin-bottom: 5px; }
 
-.body-visual { grid-area: body; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.human-svg { height: 480px; fill: #334155; }
-.active-dot { fill: var(--danger); opacity: 0; transition: 0.2s; }
-.show { opacity: 1; transform: scale(1.2); }
-
-.chart-box { grid-area: chart; height: 300px; }
-
-.footer { grid-area: footer; display: flex; justify-content: space-between; align-items: center; }
-
-.btn-start { 
-    background: var(--accent); border: none; padding: 12px 30px; border-radius: 8px; 
-    font-weight: bold; cursor: pointer; color: #000; transition: 0.3s;
+/* --- PERBAIKAN VISUAL TARGET (ANTI-DOUBLE) --- */
+.body-visual { 
+    grid-area: body; 
+    display: flex; 
+    flex-direction: column; 
 }
 
+.target-container {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 450px; /* Jaga agar tetap besar */
+    background-color: var(--card-inner);
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden; /* Supaya gambar gak luber keluar saat zoom */
+}
+
+/* Base style untuk depan & belakang */
+.target-front, .target-back {
+    position: relative;
+    background-image: url('image_47.png'); 
+    background-repeat: no-repeat;
+    /* Teknik 200% width: membagi satu gambar lebar menjadi dua bagian */
+    background-size: 200% 100%; 
+}
+
+.target-front {
+    background-position: left center; /* Ambil sisi kiri gambar */
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.target-back {
+    background-position: right center; /* Ambil sisi kanan gambar */
+}
+
+/* Titik Target yang Lebih Terlihat */
+.highlight-point {
+    width: 15px;
+    height: 16px;
+/* GANTI WARNA DI SINI (Contoh: Kuning) */
+    background-color: #ff9f1c; 
+    border-radius: 50%;
+    position: absolute;
+    /* GANTI WARNA GLOW/CAHAYA DI SINI */
+    box-shadow: 0 0 15px #ffd634; 
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+.show { opacity: 1 !important; }
+
+/* --- KOORDINAT 8 TITIK DEPAN (point-1 s/d point-8) --- */
+#point-1 { top: 7%; left: 68%; } 
+#point-2 { top: 19%; left: 69%; } 
+#point-3 { top: 33%; left: 69%; } 
+#point-4 { top: 41%; left: 61%; } 
+#point-5 { top: 41%; left: 78%; } 
+#point-6 { top: 51%; left: 70%; } 
+#point-7 { top: 60%; left: 62%; } 
+#point-8 { top: 60%; left: 77%; } 
+
+/* --- KOORDINAT 4 TITIK BELAKANG (point-back-1 s/d point-back-4) --- */
+#point-back-1 { top: 7%; left: 32%; } 
+#point-back-2 { top: 16%; left: 32%; } 
+#point-back-3 { top: 35%; left: 22%; } 
+#point-back-4 { top: 35%; left: 41%; }
+
+.chart-box { grid-area: chart; height: 300px; }
+.footer { grid-area: footer; text-align: center; font-size: 0.8rem; color: var(--dim); padding-top: 10px;}
+
 @media (max-width: 850px) {
+    .header { flex-direction: column; gap: 15px; }
     .wrapper { grid-template-areas: "header" "score" "body" "stats" "chart" "footer"; grid-template-columns: 1fr; }
+    .target-container { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; min-height: 800px; }
+    .target-front, .target-back { background-size: 100% 200%; } /* Di HP tumpuk vertikal */
+    .target-front { background-position: center top; }
+    .target-back { background-position: center bottom; }
 }
